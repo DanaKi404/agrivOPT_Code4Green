@@ -9,9 +9,6 @@
 [RP:ASSIGNMENT2_PART5]
 1=
 
-[RP:AGRESTE]
-1=
-
 [RP:UNTITLED_1]
 1=
 
@@ -19,12 +16,6 @@
 1=
 
 [RP:BACKBONE]
-1=
-
-[RP:INPUT_AGRIVOPT]
-1=
-
-[RP:AGRIVOPT]
 1=
 
 [RP:1A_DEFINITIONS]
@@ -36,21 +27,33 @@
 [RP:1E_INPUTS]
 1=
 
+[RP:AGRESTE]
+1=
+
+[RP:2B_EQUATIONS]
+1=
+
+[RP:INPUT_AGRIVOPT]
+1=
+
+[RP:AGRIVOPT]
+1=
+
 [MRUFILES]
-1=D:\PhD\Backbone\backbone-master\inc\1e_inputs.gms
-2=D:\PhD\Backbone\backbone-master\inc\1b_sets.gms
-3=D:\PhD\Backbone\backbone-master\inc\1a_definitions.gms
-4=D:\PhD\Backbone\backbone-master\Backbone.gms
-5=C:\Users\DKirc\Desktop\Code4Green\ClimateFirst_Code4Green\agrivolt_opt\02_input_agrivOPT.gms
-6=C:\Users\DKirc\Desktop\Code4Green\ClimateFirst_Code4Green\agrivolt_opt\Untitled_1.gms
-7=C:\Users\DKirc\Desktop\Code4Green\ClimateFirst_Code4Green\agrivolt_opt\agreste.gms
+1=D:\PhD\Backbone\backbone-master\inc\2b_equations.gms
+2=D:\PhD\Backbone\backbone-master\inc\1e_inputs.gms
+3=D:\PhD\Backbone\backbone-master\inc\1b_sets.gms
+4=D:\PhD\Backbone\backbone-master\inc\1a_definitions.gms
+5=D:\PhD\Backbone\backbone-master\Backbone.gms
+6=C:\Users\DKirc\Desktop\Code4Green\ClimateFirst_Code4Green\agrivolt_opt\02_input_agrivOPT.gms
+7=C:\Users\DKirc\Desktop\Code4Green\ClimateFirst_Code4Green\agrivolt_opt\Untitled_1.gms
 8=D:\PhD\UCD\Semester 1\Power System Operations\assignments\Assignment 2\Assignment2_Part5.gms
-9=C:\Users\DKirc\Desktop\Code4Green\ClimateFirst_Code4Green\Untitled_1.gms
 
 [OPENWINDOW_1]
-FILE0=C:\Users\DKirc\Desktop\Code4Green\ClimateFirst_Code4Green\agrivolt_opt\agrivOPT.gms
-FILE1=C:\Users\DKirc\Desktop\Code4Green\ClimateFirst_Code4Green\agrivolt_opt\input_agrivOPT.gms
+FILE0=C:\Users\DKirc\Desktop\Code4Green\ClimateFirst_Code4Green\agrivolt_opt\agreste.gms
+FILE1=C:\Users\DKirc\Desktop\Code4Green\ClimateFirst_Code4Green\agrivolt_opt\agrivOPT.gms
 FILE2=C:\Users\DKirc\Desktop\Code4Green\ClimateFirst_Code4Green\agrivolt_opt\input_agrivOPT.gms
+FILE3=C:\Users\DKirc\Desktop\Code4Green\ClimateFirst_Code4Green\agrivolt_opt\agreste.gms
 MAXIM=1
 TOP=50
 LEFT=50
