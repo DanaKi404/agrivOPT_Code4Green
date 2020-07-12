@@ -1,11 +1,12 @@
 $ONTEXT
 AGRIVOPT - Agrivoltaics revenue optimisation model
 
-This model aims at optimising the combined revenue of solar power and crop yield on a predefined land area.
+This linear optimisation model aims at maximising the combined revenue of solar power
+and crop yield on a predefined land area.
 Data on PV technology and solar radiation is optained from PVGIS (https://ec.europa.eu/jrc/en/pvgis)
 
 
-Developed at the Code4Green Hackathon 2020
+Developed by Dana Kirchem at the Code4Green Hackathon 2020
 $OFFTEXT
 
 * Activate end of line comments and set comment character to '//'
@@ -15,8 +16,8 @@ $onempty   // Allow for empty data definitions
 
 *======= Sets defining the model structure =====================================
 Sets
-t                        time step (h or days?)
-         /t000*t365/
+t                        time step (days)
+         /t000*t365/      //model can be run for maximum a full year
 *sun(t)                   hours of daily sunshine (h) //not necessary when daily energy production is already given as input
 crop                     crop types
 *panel                    solar panels
@@ -70,43 +71,55 @@ Positive variable
 revenue_tot               Total revenue of the farmer
 ;
 
-*------ Decision variables -------
+*------ Decision variables -----------------------------------------------------
 Positive variables
 solarpanels               Number of solar panels that should be installed on the field
 amount_crop(crop)         Amount of crop that should be purchased of each crop type (kg)
 *amount_water             Amount of water used on land (m3) //try to incorporate, but maybe future feature
 ;
 
-*------ Declaration of equations ----
+*------ Declaration of equations -----------------------------------------------
 Equations
-*------ Objective function ----------
-revenue                   revenue function
-*------ Constraints -----------------
+ // Objective function
+revenue                  revenue function
 
+ // Constraints
+max_solar                Maximum number of solar panels that can be installed on a field
+max_crop(t)              Maximum amount of crop that can be planted on the field
 ;
 
-*------ Formulation of equations ---
-*------ Objective function ---------
+*------ Formulation of equations -----------------------------------------------
+
+*------ Objective function -----------------------------------------------------
 * Maximise the solar energy produced, the potential harvest yield
 revenue ..
 
 revenue_tot =E= sum (t,
-                     (solarpanels * p_PV('energy',t) * p_PV('price_PV',t))                                  //sum of value of produced solar power of each installed panel in each time step
+                     (solarpanels * p_PV('energy', t) * p_PV('price_PV', t))                            //sum of value of produced solar power of each installed panel in each time step
                 +
-                     sum(crop, amount_crop(crop) * (1-crop_loss) * price_crop(crop) * plant_cycle(crop, t)) //sum of value of harvest from each crop
+                     sum(crop, amount_crop(crop) * (1-p_crop(crop,'crop_loss',t) * p_crop(crop,'price_crop',t) * p_crop(crop,'plant_cycle', t)) //sum of value of harvest from each crop
                 )
 ;
 
-*------ Constraints -----------
+*------ Constraints ------------------------------------------------------------
 * Land size of the field limits the amount of solar panels that can be installed
-landsize =G= sum(panel, solarpanels * PV_size(panel))
+max_solar ..
 
-* Land size limits the amount of crop that can be planted
-landsize =G= sum(crop, amount_crop(crop) * size_crop(crop)) //this doesn't take into account the plant cycle yet, revise
+p_land('landsize') =G= sum(t, solarpanels * p_PV('PV_size', t))
+;
+
+* Land size limits the amount of crop that can be planted in different time steps
+max_crop(t) ..
+
+p_land('landsize') =G= sum(crop, amount_crop(crop) * p_crop(crop, 'size_crop', t)) //this doesn't take into account the plant cycle yet, revise
+;
+
+
+* Further constraints, which would need to be implemented:
 
 * Solar power is limited by the available solar radiation (hours of sunshine per day?)
 * Crop growth is limited by water requirements of the crop
-* limited water availability
+* Limited water availability
 * crop growth is limited by percipitation in the area
 * crop growth depends on average, minimum, maximum temperature
 * crop growth is limited by nutrients in the soil (soil quality, pH values),could be approx by land value data
@@ -116,7 +129,7 @@ landsize =G= sum(crop, amount_crop(crop) * size_crop(crop)) //this doesn't take 
 ;
 
 
-*----------- SOLVE -----------------
+*============= SOLVE ===========================================================
 
 model agrivOPT / all /;
 
@@ -124,7 +137,9 @@ model agrivOPT / all /;
 
 solve agrivOPT maximizing revenue using lp;
 
-*------ Output ---------------
+*============ Output ===========================================================
+* Outputs of the model should be:
+
 * number of solar panels that should be installed
 * type of crop that should be planted in each time step
 * total revenue of farmer
